@@ -1,0 +1,44 @@
+kanotix-remountrw (0.5.6) unstable; urgency=low
+
+  * overhaul packaging.
+  * bump standards version.
+  * fix lintian warnings.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 23 Aug 2005 15:27:45 +0200
+
+kanotix-remountrw (0.5-5) unstable; urgency=low
+
+  * fix dependencies. 
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 23 Dec 2004 01:28:36 +0100
+
+kanotix-remountrw (0.5-4) unstable; urgency=low
+
+  * Fork for Kanotix compatibility.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 21 Dec 2004 20:39:34 +0100
+
+knoppix-remountrw (0.5-4) unstable; urgency=low
+
+  * Integrate captive-installer-knoppix
+
+ -- Klaus Knopper <knopper@knopper.net>  Mon,  9 Aug 2004 03:30:52 +0200
+
+knoppix-remountrw (0.5-3) unstable; urgency=low
+
+  * Check for captive-ntfs driver presence
+
+ -- Klaus Knopper <knoppix@knopper.net>  Sat,  1 May 2004 23:51:30 +0200
+
+knoppix-remountrw (0.5-2) unstable; urgency=low
+
+  * Added spanish messages by Sergio Gonzalez <sergio.gonzalez@hispalinux.es>, Luis Llorente <luis.llorente@hispalinux.es>
+
+ -- Klaus Knopper <knoppix@knopper.net>  Fri,  6 Dec 2002 19:10:57 +0100
+
+knoppix-remountrw (0.5-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Klaus Knopper <knoppix@knopper.net>  Sat,  5 Oct 2002 23:44:26 +0200
+
