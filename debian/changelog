@@ -1,10 +1,19 @@
+kanotix-remountrw (0.5.7) unstable; urgency=low
+
+  * remove cdbs auto-update feature.
+  * remove knoppix virtual packages.
+  * bump compat level.
+  * clean up debian/control.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 17 Dec 2005 02:11:55 +0100
+
 kanotix-remountrw (0.5.6) unstable; urgency=low
 
   * overhaul packaging.
   * bump standards version.
   * fix lintian warnings.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 23 Aug 2005 15:27:45 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 17 Dec 2005 02:11:51 +0100
 
 kanotix-remountrw (0.5-5) unstable; urgency=low
 
