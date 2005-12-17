@@ -1,3 +1,9 @@
+kanotix-remountrw (0.5.8) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 17 Dec 2005 02:13:44 +0100
+
 kanotix-remountrw (0.5.7) unstable; urgency=low
 
   * remove cdbs auto-update feature.
