@@ -1,5 +1,9 @@
 #!/bin/bash
 
+FLL_DISTRO_NAME="Kanotix"
+
+[ -r /etc/default/distro ] && source /etc/default/distro
+
 XDIALOG_HIGH_DIALOG_COMPAT=1
 export XDIALOG_HIGH_DIALOG_COMPAT
 
@@ -36,7 +40,7 @@ ERROR2="
 $PARTITION ist nicht gemountet.
 Bitte binden Sie die Partition erst ein, bevor Sie den Lese-/Schreibstatus ändern."
 ERROR3="
-ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen. Sie können versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. Knoppix-Utilities-Menü), oder Schreiboperationen nur manuell ausführen und damit rechnen, dass Sie anschließend das Dateisystem neu formatieren müssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
+ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen. Sie können versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. ${FLL_DISTRO_NAME}-Utilities-Menü), oder Schreiboperationen nur manuell ausführen und damit rechnen, dass Sie anschließend das Dateisystem neu formatieren müssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
 ;;
 es)
 TITLE_ERROR="ERROR"
@@ -56,7 +60,7 @@ ERROR2="
 $PARTITION is not mounted.
 Please mount the partition prior to changing its read/write status."
 ERROR3="
-WARNING: The partition $PARTITION is of type NTFS! Writing to this filesystem can cause data loss. You can try using the \"captive-ntfs\" driver (see Knoppix-Utilities menu), or only do write operations manually and expect to have to reinstall the filesystem afterwards. This dialog won't do this risky thing for you, and will quit now without changing anything."
+WARNING: The partition $PARTITION is of type NTFS! Writing to this filesystem can cause data loss. You can try using the \"captive-ntfs\" driver (see ${FLL_DISTRO_NAME}-Utilities menu), or only do write operations manually and expect to have to reinstall the filesystem afterwards. This dialog won't do this risky thing for you, and will quit now without changing anything."
 ;;
 esac
 

@@ -1,8 +1,8 @@
-kanotix-remountrw (0.5.8) UNRELEASED; urgency=low
+kanotix-remountrw (0.5.8) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * knoppix --> kanotix transition, thanks to x-un-i.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 17 Dec 2005 02:13:44 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  2 Mar 2006 02:24:35 +0100
 
 kanotix-remountrw (0.5.7) unstable; urgency=low
 
