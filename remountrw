@@ -38,19 +38,19 @@ ERROR1="
 Aufruf bitte wie folgt: $0 /dev/partitionsname"
 ERROR2="
 $PARTITION ist nicht gemountet.
-Bitte binden Sie die Partition erst ein, bevor Sie den Lese-/Schreibstatus ändern."
+Bitte binden Sie die Partition erst ein, bevor Sie den Lese-/Schreibstatus Ã¤ndern."
 ERROR3="
-ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen. Sie können versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. ${FLL_DISTRO_NAME}-Utilities-Menü), oder Schreiboperationen nur manuell ausführen und damit rechnen, dass Sie anschließend das Dateisystem neu formatieren müssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
+ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten fÃ¼hren. Sie kÃ¶nnen versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. ${FLL_DISTRO_NAME}-Utilities-MenÃ¼), oder Schreiboperationen nur manuell ausfÃ¼hren und damit rechnen, dass Sie anschlieÃŸend das Dateisystem neu formatieren mÃ¼ssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
 ;;
 es)
 TITLE_ERROR="ERROR"
 ERROR1="
 Uso: $0 /dev/partitionname"
 ERROR2="
-$PARTITION no está montada.
-Por favor, monte la partición antes de cambiar su estado de lectura/escritura."
+$PARTITION no estÃ¡ montada.
+Por favor, monte la particiÃ³n antes de cambiar su estado de lectura/escritura."
 ERROR3="
-PRECAUCIÓN: La partición $PARTITION es de tipo NTFS! Escribir en este tipo de sistema de ficheros puede causar pérdida de datos. Por esto, debería realizar sólamente operaciones de escritura manualmente y esperar que después tenga que reinstalar el sistema de ficheros. Este mensaje no hará esta operación tan arriesgada por usted y finalizará sin cambiar nada."
+PRECAUCIÃ“N: La particiÃ³n $PARTITION es de tipo NTFS! Escribir en este tipo de sistema de ficheros puede causar pÃ©rdida de datos. Por esto, deberÃ­a realizar sÃ³lamente operaciones de escritura manualmente y esperar que despuÃ©s tenga que reinstalar el sistema de ficheros. Este mensaje no harÃ¡ esta operaciÃ³n tan arriesgada por usted y finalizarÃ¡ sin cambiar nada."
 ;;
 *)
 TITLE_ERROR="ERROR"
@@ -85,18 +85,18 @@ RWMESSAGE="nur-lesbar"
 [ "$CHANGETO" = "rw" ] && RWMESSAGE="schreibbar"
 TITLE_QUESTION="Partition $PARTITION $RWMESSAGE machen?"
 MESSAGE1="
-Möchten Sie die Partition $PARTITION ($FILESYSTEM) wirklich $RWMESSAGE machen?"
+MÃ¶chten Sie die Partition $PARTITION ($FILESYSTEM) wirklich $RWMESSAGE machen?"
 ERROR4="
 Das Remount-Kommando ist fehlgeschlagen. Eventuell greift gerade ein anderes Programm auf das Dateisystem zu."
 ;;
 es)
-RWMESSAGE="sólo lectura"
+RWMESSAGE="sÃ³lo lectura"
 [ "$CHANGETO" = "rw" ] && RWMESSAGE="escribible"
-TITLE_QUESTION="¿Crear partición $PARTITION $RWMESSAGE?"
+TITLE_QUESTION="Â¿Crear particiÃ³n $PARTITION $RWMESSAGE?"
 MESSAGE1="
-¿Quiere realmente cambiar la partición $PARTITION ($FILESYSTEM) para ser $RWMESSAGE?"
+Â¿Quiere realmente cambiar la particiÃ³n $PARTITION ($FILESYSTEM) para ser $RWMESSAGE?"
 ERROR4="
-El comando remount falló. Puede ser que haya otro proceso accediendo actualmente al sistema de ficheros."
+El comando remount fallÃ³. Puede ser que haya otro proceso accediendo actualmente al sistema de ficheros."
 ;;
 *)
 RWMESSAGE="read-only"
