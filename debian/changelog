@@ -1,8 +1,8 @@
-kanotix-remountrw (0.5.11) UNRELEASED; urgency=low
+kanotix-remountrw (0.5.11) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * remove captive from help texts.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  9 Nov 2006 21:03:27 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  9 Nov 2006 23:57:51 +0100
 
 kanotix-remountrw (0.5.10) unstable; urgency=low
 

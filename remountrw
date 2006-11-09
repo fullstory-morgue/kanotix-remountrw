@@ -37,19 +37,19 @@ case "$LANG" in
 		ERROR1="Aufruf bitte wie folgt: $0 /dev/partitionsname"
 		ERROR2="$PARTITION ist nicht gemountet.
 Bitte binden Sie die Partition erst ein, bevor Sie den Lese-/Schreibstatus ändern."
-		ERROR3="ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen. Sie können versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. ${FLL_DISTRO_NAME}-Utilities-Menü), oder Schreiboperationen nur manuell ausführen und damit rechnen, dass Sie anschließend das Dateisystem neu formatieren müssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
+		ERROR3="ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen."
 		;;
 	es*)
 		TITLE_ERROR="ERROR"
 		ERROR1="Uso: $0 /dev/partitionname"
 		ERROR2="$PARTITION no está montada. Por favor, monte la partición antes de cambiar su estado de lectura/escritura."
-		ERROR3="PRECAUCIÓN: La partición $PARTITION es de tipo NTFS! Escribir en este tipo de sistema de ficheros puede causar pérdida de datos. Por esto, debería realizar sólamente operaciones de escritura manualmente y esperar que después tenga que reinstalar el sistema de ficheros. Este mensaje no hará esta operación tan arriesgada por usted y finalizará sin cambiar nada."
+		ERROR3="PRECAUCIÓN: La partición $PARTITION es de tipo NTFS! Escribir en este tipo de sistema de ficheros puede causar pérdida de datos."
 		;;
 	*)
 		TITLE_ERROR="ERROR"
 		ERROR1="Usage: $0 /dev/partitionname"
 		ERROR2="$PARTITION is not mounted. Please mount the partition prior to changing its read/write status."
-		ERROR3="WARNING: The partition $PARTITION is of type NTFS! Writing to this filesystem can cause data loss. You can try using the \"captive-ntfs\" driver (see ${FLL_DISTRO_NAME}-Utilities menu), or only do write operations manually and expect to have to reinstall the filesystem afterwards. This dialog won't do this risky thing for you, and will quit now without changing anything."
+		ERROR3="WARNING: The partition $PARTITION is of type NTFS! Writing to this filesystem can cause data loss."
 		;;
 esac
 
