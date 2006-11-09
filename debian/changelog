@@ -1,8 +1,11 @@
-kanotix-remountrw (0.5.10) UNRELEASED; urgency=low
+kanotix-remountrw (0.5.10) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * fix i18n usage.
+  * fix bashisms.
+  * switch to kanotix-su.
+  * re- indent.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Wed,  1 Nov 2006 00:23:25 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  9 Nov 2006 21:02:07 +0100
 
 kanotix-remountrw (0.5.9) unstable; urgency=low
 

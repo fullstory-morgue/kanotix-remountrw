@@ -7,13 +7,13 @@ FLL_DISTRO_NAME="Kanotix"
 XDIALOG_HIGH_DIALOG_COMPAT=1
 export XDIALOG_HIGH_DIALOG_COMPAT
 
-[ "`id -u`" != "0" ] && exec sudo "$0" "$@"
+[ "$UID" -ne 0 ] && exec kanotix-su "$0" "$@"
 
-TMP="/tmp/mkreadwrite.tmp$$"
+TMP="$(mktemp -p /tmp/ mkreadwrite-XXXXXXXXXX)"
 
-bailout(){
-rm -f "$TMP"
-exit 0
+bailout() {
+	rm -f "$TMP"
+	exit 0
 }
 
 trap bailout 1 2 3 15
@@ -24,105 +24,89 @@ DIALOG="dialog"
 PARTITION="$1"
 
 if [ ! -b "$PARTITION" ]; then
-# It's no device file, check if it is a mounted directory instead
-MOUNTPOINT="$PARTITION"
-PARTITION="$(awk '{if($2=="'"$PARTITION"'"){print $1;exit}}' /proc/mounts)"
+	# It's no device file, check if it is a mounted directory instead
+	MOUNTPOINT="$PARTITION"
+	PARTITION="$(awk '{if($2=="'"$PARTITION"'"){print $1;exit}}' /proc/mounts)"
 else
-MOUNTPOINT="$(awk '{if($2=="'"$PARTITION"'"){print $2;exit}}' /proc/mounts)"
+	MOUNTPOINT="$(awk '{if($2=="'"$PARTITION"'"){print $2;exit}}' /proc/mounts)"
 fi
 
-case "$LANGUAGE" in
-de|ch|at)
-TITLE_ERROR="FEHLER"
-ERROR1="
-Aufruf bitte wie folgt: $0 /dev/partitionsname"
-ERROR2="
-$PARTITION ist nicht gemountet.
+case "$LANG" in
+	de*|ch*|at*)
+		TITLE_ERROR="FEHLER"
+		ERROR1="Aufruf bitte wie folgt: $0 /dev/partitionsname"
+		ERROR2="$PARTITION ist nicht gemountet.
 Bitte binden Sie die Partition erst ein, bevor Sie den Lese-/Schreibstatus ändern."
-ERROR3="
-ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen. Sie können versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. ${FLL_DISTRO_NAME}-Utilities-Menü), oder Schreiboperationen nur manuell ausführen und damit rechnen, dass Sie anschließend das Dateisystem neu formatieren müssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
-;;
-es)
-TITLE_ERROR="ERROR"
-ERROR1="
-Uso: $0 /dev/partitionname"
-ERROR2="
-$PARTITION no está montada.
-Por favor, monte la partición antes de cambiar su estado de lectura/escritura."
-ERROR3="
-PRECAUCIÓN: La partición $PARTITION es de tipo NTFS! Escribir en este tipo de sistema de ficheros puede causar pérdida de datos. Por esto, debería realizar sólamente operaciones de escritura manualmente y esperar que después tenga que reinstalar el sistema de ficheros. Este mensaje no hará esta operación tan arriesgada por usted y finalizará sin cambiar nada."
-;;
-*)
-TITLE_ERROR="ERROR"
-ERROR1="
-Usage: $0 /dev/partitionname"
-ERROR2="
-$PARTITION is not mounted.
-Please mount the partition prior to changing its read/write status."
-ERROR3="
-WARNING: The partition $PARTITION is of type NTFS! Writing to this filesystem can cause data loss. You can try using the \"captive-ntfs\" driver (see ${FLL_DISTRO_NAME}-Utilities menu), or only do write operations manually and expect to have to reinstall the filesystem afterwards. This dialog won't do this risky thing for you, and will quit now without changing anything."
-;;
+		ERROR3="ACHTUNG: Die Partition $PARTITION ist vom Typ NTFS! Schreiben auf dieses Dateisystem kann zu Datenverlusten führen. Sie können versuchen, den \"captive-ntfs\"-Treiber zu installieren (s. ${FLL_DISTRO_NAME}-Utilities-Menü), oder Schreiboperationen nur manuell ausführen und damit rechnen, dass Sie anschließend das Dateisystem neu formatieren müssen. Dieses Skript wird das nicht riskieren und beendet sich jetzt unverrichteter Dinge."
+		;;
+	es*)
+		TITLE_ERROR="ERROR"
+		ERROR1="Uso: $0 /dev/partitionname"
+		ERROR2="$PARTITION no está montada. Por favor, monte la partición antes de cambiar su estado de lectura/escritura."
+		ERROR3="PRECAUCIÓN: La partición $PARTITION es de tipo NTFS! Escribir en este tipo de sistema de ficheros puede causar pérdida de datos. Por esto, debería realizar sólamente operaciones de escritura manualmente y esperar que después tenga que reinstalar el sistema de ficheros. Este mensaje no hará esta operación tan arriesgada por usted y finalizará sin cambiar nada."
+		;;
+	*)
+		TITLE_ERROR="ERROR"
+		ERROR1="Usage: $0 /dev/partitionname"
+		ERROR2="$PARTITION is not mounted. Please mount the partition prior to changing its read/write status."
+		ERROR3="WARNING: The partition $PARTITION is of type NTFS! Writing to this filesystem can cause data loss. You can try using the \"captive-ntfs\" driver (see ${FLL_DISTRO_NAME}-Utilities menu), or only do write operations manually and expect to have to reinstall the filesystem afterwards. This dialog won't do this risky thing for you, and will quit now without changing anything."
+		;;
 esac
 
 if [ ! -b "$PARTITION" ]; then
-$DIALOG --title "$TITLE_ERROR" --msgbox "$ERROR1" 10 65
-bailout 1
+	$DIALOG --title "$TITLE_ERROR" --msgbox "$ERROR1" 10 65
+	bailout 1
 fi
 
 FILESYSTEM="$(awk '{if($1=="'"$PARTITION"'"){print $3;exit}}' /proc/mounts)"
 STATUS="$(awk '{if($1=="'"$PARTITION"'"){print $4;exit}}' /proc/mounts)"
 if [ -z "$FILESYSTEM" -o -z "$STATUS" ]; then
-$DIALOG --msgbox "$ERROR2" 10 65
-bailout 2
+	$DIALOG --msgbox "$ERROR2" 10 65
+	bailout 2
 fi
 
 CHANGETO="ro"
-case "$STATUS" in *rw*) STATUS="rw"; ;; *) STATUS="ro"; CHANGETO="rw"; ;; esac
+case "$STATUS" in
+	*rw*)
+		STATUS="rw"
+		;;
+	*)
+		STATUS="ro"
+		CHANGETO="rw"
+		;;
+esac
 
-case "$LANGUAGE" in
-de|ch|at)
-RWMESSAGE="nur-lesbar"
-[ "$CHANGETO" = "rw" ] && RWMESSAGE="schreibbar"
-TITLE_QUESTION="Partition $PARTITION $RWMESSAGE machen?"
-MESSAGE1="
-Möchten Sie die Partition $PARTITION ($FILESYSTEM) wirklich $RWMESSAGE machen?"
-ERROR4="
-Das Remount-Kommando ist fehlgeschlagen. Eventuell greift gerade ein anderes Programm auf das Dateisystem zu."
-;;
-es)
-RWMESSAGE="sólo lectura"
-[ "$CHANGETO" = "rw" ] && RWMESSAGE="escribible"
-TITLE_QUESTION="¿Crear partición $PARTITION $RWMESSAGE?"
-MESSAGE1="
-¿Quiere realmente cambiar la partición $PARTITION ($FILESYSTEM) para ser $RWMESSAGE?"
-ERROR4="
-El comando remount falló. Puede ser que haya otro proceso accediendo actualmente al sistema de ficheros."
-;;
-*)
-RWMESSAGE="read-only"
-[ "$CHANGETO" = "rw" ] && RWMESSAGE="writable"
-TITLE_QUESTION="Make partition $PARTITION $RWMESSAGE?"
-MESSAGE1="
-Do you really want to change partition $PARTITION ($FILESYSTEM) to be $RWMESSAGE?"
-ERROR4="
-The remount command failed. Maybe there is another process accessing the filesystem currently."
-;;
+case "$LANG" in
+	de*|ch*|at*)
+		RWMESSAGE="nur-lesbar"
+		[ "$CHANGETO" = "rw" ] && RWMESSAGE="schreibbar"
+		TITLE_QUESTION="Partition $PARTITION $RWMESSAGE machen?"
+		MESSAGE1="Möchten Sie die Partition $PARTITION ($FILESYSTEM) wirklich $RWMESSAGE machen?"
+		ERROR4="Das Remount-Kommando ist fehlgeschlagen. Eventuell greift gerade ein anderes Programm auf das Dateisystem zu."
+		;;
+	es*)
+		RWMESSAGE="sólo lectura"
+		[ "$CHANGETO" = "rw" ] && RWMESSAGE="escribible"
+		TITLE_QUESTION="¿Crear partición $PARTITION $RWMESSAGE?"
+		MESSAGE1="¿Quiere realmente cambiar la partición $PARTITION ($FILESYSTEM) para ser $RWMESSAGE?"
+		ERROR4="El comando remount falló. Puede ser que haya otro proceso accediendo actualmente al sistema de ficheros."
+		;;
+	*)
+		RWMESSAGE="read-only"
+		[ "$CHANGETO" = "rw" ] && RWMESSAGE="writable"
+		TITLE_QUESTION="Make partition $PARTITION $RWMESSAGE?"
+		MESSAGE1="Do you really want to change partition $PARTITION ($FILESYSTEM) to be $RWMESSAGE?"
+		ERROR4="The remount command failed. Maybe there is another process accessing the filesystem currently."
+		;;
 esac
 
 $DIALOG --title "$TITLE_QUESTION" --yesno "$MESSAGE1" 10 65 || bailout 0
 
-if [ "$CHANGETO" = "rw" ]; then
-# plain ntfs is a problematic case
-case "$FILESYSTEM" in
- *ntfs*) captive-installer-knoppix "$PARTITION" || captive-installer-knoppix || { $DIALOG --title "$TITLE_ERROR" --msgbox "$ERROR3" 12 65; bailout 3; }
- { umount "$PARTITION" && mount -t captive-ntfs -o rw,umask=000 $PARTITION $MOUNTPOINT && bailout 0; } || { $DIALOG --title "$TITLE_ERROR" --msgbox "$ERROR4" 12 65; bailout 4; }
- ;;
-esac
-fi
-
 mount -o remount,"$CHANGETO" "$PARTITION" >/dev/null 2>&1
 if [ "$?" != "0" ]; then
-$DIALOG --title "$TITLE_ERROR" --msgbox "$ERROR4" 10 65
-bailout 4
+	$DIALOG --title "$TITLE_ERROR" --msgbox "$ERROR4" 10 65
+	bailout 4
 fi
+
 bailout 0
+

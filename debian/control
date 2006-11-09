@@ -7,8 +7,7 @@ Standards-Version: 3.7.2
 
 Package: kanotix-remountrw
 Architecture: all
-Depends: dialog, xdialog
-Recommends: captive-kanotix
+Depends: dialog, xdialog, kanotix-su
 Description: Minimalistic script for r/w remount of partitions
  This script is used for the desktop icons in KANOTIX to change the
  r/w status of already mounted partitions via
